@@ -36,7 +36,7 @@ def transform(document, inenglishtext)
         fragment = '#' + Regexp.last_match[3]
       end
       if translatedpage.nil?
-        '<<' + Regexp.last_match[1] +'>>({{ "' + Regexp.last_match[2] +'" | relative_url }}'+ fragment+')' + hreflang + inenglishtext
+        '<<' + Regexp.last_match[1] + inenglishtext +'>>({{ "' + Regexp.last_match[2] +'" | relative_url }}'+ fragment+')' + hreflang
       else
         '<<' + translatedpage.data['title'] +'>>({{ "' + translatedpage.data['permalink'] + '" | relative_url }}'+ fragment+')'
       end
@@ -50,7 +50,7 @@ def transform(document, inenglishtext)
         fragment = '#' + Regexp.last_match[3]
       end
       if translatedpage.nil?
-        '[' + Regexp.last_match[1] +']({{ "' + Regexp.last_match[2] +'" | relative_url }}'+ fragment+')' + hreflang + inenglishtext
+        '[' + Regexp.last_match[1] + inenglishtext +']({{ "' + Regexp.last_match[2] +'" | relative_url }}'+ fragment+')' + hreflang
       else
         '[' + Regexp.last_match[1] +']({{ "' + translatedpage.data['permalink'] + '" | relative_url }}'+ fragment+')'
       end
