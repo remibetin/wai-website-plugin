@@ -38,7 +38,12 @@ def transform(document, inenglishtext)
       if translatedpage.nil?
         '<<' + Regexp.last_match[1] + inenglishtext +'>>({{ "' + Regexp.last_match[2] +'" | relative_url }}'+ fragment+')' + hreflang
       else
-        '<<' + translatedpage.data['title'] +'>>({{ "' + translatedpage.data['permalink'] + '" | relative_url }}'+ fragment+')'
+        if translatedpage.data['title'] and translatedpage.data['permalink']
+          '<<' + translatedpage.data['title'] +'>>({{ "' + translatedpage.data['permalink'] + '" | relative_url }}'+ fragment+')'
+        else
+          raise translatedpage.basename + " - missing title in frontmatter" unless translatedpage.data['title']
+          raise translatedpage.basename + " - missing permalink in frontmatter" unless translatedpage.data['permalink']
+        end
       end
     end
 
@@ -52,7 +57,11 @@ def transform(document, inenglishtext)
       if translatedpage.nil?
         '[' + Regexp.last_match[1] + inenglishtext +']({{ "' + Regexp.last_match[2] +'" | relative_url }}'+ fragment+')' + hreflang
       else
-        '[' + Regexp.last_match[1] +']({{ "' + translatedpage.data['permalink'] + '" | relative_url }}'+ fragment+')'
+        if translatedpage.data['permalink']
+          '[' + Regexp.last_match[1] +']({{ "' + translatedpage.data['permalink'] + '" | relative_url }}'+ fragment+')'
+        else
+          raise translatedpage.basename + " - missing permalink in frontmatter"
+        end
       end
     end
 
